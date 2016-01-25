@@ -1,0 +1,13 @@
+{
+  "env": {
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "expect": true,
+    "dofile": true,
+    "Ignis": true,
+    "Sinon": true,
+    "co": true
+  }
+}
