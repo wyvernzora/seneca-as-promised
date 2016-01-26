@@ -30,12 +30,12 @@ function async() {
 
     /* If we don't have a callback, assume it's promisified call */
     if (typeof callback !== 'function') {
-      return __act.call(this, ...args);
+      return __act.call(Seneca, ...args);
     }
 
     /* Otherwise, call without callback then nodeify */
     return __act
-      .call(this, ...params)
+      .call(Seneca, ...params)
       .nodeify(callback);
   };
 
@@ -54,9 +54,9 @@ function async() {
 
     /* Unpromisified actions MUSH have two arguments */
     if (action.length === 2) {
-      return __add.call(this, ...pattern, action.bind(Seneca));
+      return __add.call(Seneca, ...pattern, action.bind(Seneca));
     }
-    return __add.call(this, ...pattern, Unpromisify(action.bind(Seneca)));
+    return __add.call(Seneca, ...pattern, Unpromisify(action.bind(Seneca)));
   };
 
 
