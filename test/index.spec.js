@@ -19,3 +19,7 @@ global.Sinon       = require('sinon');
 /*!
  * Start tests.
  */
+require('./async.spec.js');
+require('./config.spec.js');
+require('./stub.spec.js');
+require('./util.spec.js');

@@ -13,6 +13,7 @@ function stub() {
   const Seneca = this;
 
   /* Require global.Sinon */
+  /* istanbul ignore if */
   if (!global.Sinon) { return; }
 
 
