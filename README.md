@@ -7,7 +7,7 @@ Promise support for Seneca.js, as well as other useful stuff.
 
 ```js
 const Seneca = require('seneca')();
-Seneca.use('as-promised');
+require('seneca-as-promised')(Seneca);
 ```
 
 In order to add an async task, use the following:
