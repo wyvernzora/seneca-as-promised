@@ -6,8 +6,7 @@
  */
 
 
-function promised() {
-  const seneca = Object.getPrototypeOf(this);
+function promised(seneca) {
 
   require('./async').call(seneca);
   require('./config').call(seneca);

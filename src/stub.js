@@ -30,7 +30,7 @@ function stub() {
         done(null, value);
       }
     });
-    this.add(pattern, _stub);
+    Seneca.add(pattern, _stub);
 
     _stub.data = function() {
       if (!this.calledOnce) {

@@ -29,7 +29,7 @@ function unpromisify(fn) {
 
     /* Call the function and wrap the promise */
     return Bluebird
-      .try(() => { return fn(...args); })
+      .try(() => fn(...args))
       .nodeify(callback);
   };
 }

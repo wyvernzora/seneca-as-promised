@@ -12,7 +12,7 @@ describe('stub', function() {
 
   beforeEach(function() {
     this.seneca = Seneca({ log: 'silent' });
-    this.seneca.use(target);
+    target(this.seneca);
   });
 
   it('should return a sinon spy', async function() {
