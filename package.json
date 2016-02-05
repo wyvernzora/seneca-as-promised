@@ -1,7 +1,7 @@
 {
   "name": "seneca-as-promised",
   "description": "Monkey patch senecajs to use promises; and also some other useful stuff.",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/jluchiji/seneca-as-promised",
   "author": {
     "name": "Denis Luchkin-Zhou",
