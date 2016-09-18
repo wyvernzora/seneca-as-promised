@@ -1,48 +1,94 @@
-# Seneca-as-promised
-Promise support for Seneca.js, as well as other useful stuff.
+![Seneca](http://senecajs.org/files/assets/seneca-logo.png)
+> Promise support for [Seneca.js][0] microservices
 
-*At this point the project is still in development*
+# seneca-as-promised
+[![npm version][1]][2]
+[![Build Status][3]][4]
 
-# Getting Started
+- __Lead Maintainer:__ [Denis Luchkin-Zhou][5]
+- __Sponsor:__ [Ricepo][6]
 
-```js
-const Seneca = require('seneca')();
-require('seneca-as-promised')(Seneca);
+
+This plugin adds support for promises to Seneca, courtesy of [Bluebird][7].
+
+
+## Install
+
+To install, use npm
+
+```sh
+npm install seneca-as-promised
 ```
 
-In order to add an async task, use the following:
+Add in your code
 
 ```js
-async function task() {
-  return { foo: 'bar' };
-}
-
-Seneca.async('role:test,cmd:task', task);
+require('seneca')()
+  .use('seneca-as-promised');
 ```
 
-Seneca.act is monkey patched to support both promises and callbacks:
+
+## API
+
+### `addAsync()`
+
+Behaves exactly like `seneca.add()`, but supports promise-returning functions.
 
 ```js
-async function task() {
-  await Seneca.act('role:test,cmd:task', { });
-}
+
+seneca.addAsync('role:hex,color:red', async function(msg) {
+  await someAsyncStuff();
+  return { color: '#FF0000' };
+});
+
 ```
 
-In addition to that, seneca-as-promised provides a simple way to attach stuff to the seneca instance:
+Actions added via `addAsync()` have an additional `priorAsync` method in the
+`this` context, which is a promisified version of `this.prior()`.
+
+
+
+### `actAsync()`
+
+Behaves exactly like `seneca.act()`, but returns a promise. Also supports
+callbacks.
 
 ```js
-Seneca.set('foo.bar', { herp: 'derp' });
-Seneca.get('foo.bar.herp'); // 'derp'
+
+const color = await seneca.actAsync('role:hex,color:red');
+
 ```
 
-When `global.Sinon` is defined, seneca-as-promised also adds `Seneca.stub`, which stubs a seneca task using Sinon.js:
+
+### `wrapAsync()`
+
+Behaves exactly like `seneca.wrap()`, but supports promise-returning functions.
 
 ```js
-const stub = Seneca.stub('role:test,cmd:stub', { foo: 'bar' });
-await Seneca.act('role:test,cmd:stub', { herp: 'derp' }); // { foo: 'bar' }
 
-stub.data(); // { role: 'test', cmd: 'stub', herp: 'derp' }
+seneca.wrapAsync('role:hex', async function(msg) {
+  const color = await this.priorAsync(msg);
+  color.format = 'css';
+
+  return color;
+});
+
 ```
 
-If value provided to `Seneca.stub` is an `Error`, then it will be thrown instead
-of being returned.
+Wrappers added via `wrapAsync()` have an additional `priorAsync` method in the
+`this` context, which is a promisified version of `this.prior()`.
+
+
+## License
+
+Copyright (C) 2015-16, Denis Luchkin-Zhou. Licensed under [MIT][8]
+
+[0]: https://github.com/senecajs/seneca
+[1]: https://img.shields.io/npm/v/seneca-as-promised.svg?maxAge=2592000
+[2]: https://www.npmjs.com/package/seneca-as-promised
+[3]: https://img.shields.io/codeship/48da88b0-5fb5-0134-7be2-7a3a89611ccb/master.svg
+[4]: https://codeship.com/projects/174421
+[5]: https://github.com/jluchiji
+[6]: https://ricepo.com
+[7]: https://github.com/petkaantonov/bluebird
+[8]: ./LICENSE
