@@ -6,11 +6,11 @@
  */
 
 
-function promised(seneca) {
+function promise(options) {
 
-  require('./async').call(seneca);
-  require('./config').call(seneca);
-  require('./stub').call(seneca);
+  this.decorate('actAsync', require('./act'));
+  this.decorate('addAsync', require('./add'));
+  this.decorate('wrapAsync', require('./wrap'));
 
 }
-module.exports = promised;
+module.exports = promise;

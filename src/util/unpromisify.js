@@ -2,22 +2,18 @@
  * util/unpromisify.js
  *
  * @author  Denis Luchkin-Zhou <denis@ricepo.com>
- * @license MIT
+ * @license 2015-16 (C) Ricepo LLC. All Rights Reserved.
  */
-
 const _            = require('lodash');
 const Bluebird     = require('bluebird');
 
+
+
 /**
- * unpromisify(1)
- *
- * @description                Wraps a promise-returning function into a
- *                             universal function that returns a promise AND
- *                             accepts a node-style callback.
- * @param          {fn}        promise-returning function to wrap.
- * @returns        {Function}  Node-style callback-accepting function.
+ * Custom unpromisifier in order to support .wrap() and .prior()
  */
 function unpromisify(fn) {
+
   return function(...args) {
     let callback = function() { };
 
@@ -27,10 +23,21 @@ function unpromisify(fn) {
       args     = _.take(args, args.length - 1);
     }
 
+    /* Construct the Senecajs context */
+    const context = { };
+    Object.setPrototypeOf(context, this);
+
+    /* Bind and promisify the prior$ function */
+    context.priorAsync = Bluebird
+      .promisify(this.prior)
+      .bind(this);
+    context.prior$ = context.priorAsync; // NOTE Lecacy alias
+
     /* Call the function and wrap the promise */
     return Bluebird
-      .try(() => fn(...args))
+      .try(() => fn.call(context, ...args))
       .nodeify(callback);
   };
+
 }
 module.exports = unpromisify;

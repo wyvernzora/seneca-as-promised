@@ -1,0 +1,15 @@
+#
+# .eslintrc.yml
+#
+# @author  Denis Luchkin-Zhou <denis@ricepo.com>
+# @license 2015-16 (C) Ricepo LLC. All Rights Reserved.
+#
+extends:
+  - ricepo/base
+  - ricepo/ava
+
+parser: babel-eslint
+
+env:
+  es6: true
+  node: true

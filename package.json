@@ -1,7 +1,7 @@
 {
   "name": "seneca-as-promised",
-  "description": "Monkey patch senecajs to use promises; and also some other useful stuff.",
-  "version": "1.0.0",
+  "description": "Promise support for Seneca.js",
+  "version": "1.1.0",
   "homepage": "https://github.com/jluchiji/seneca-as-promised",
   "author": {
     "name": "Denis Luchkin-Zhou",
@@ -20,103 +20,70 @@
   "license": "MIT",
   "main": "lib/index.js",
   "engines": {
-    "node": ">=4.1.0",
-    "npm": ">=2.14.0"
+    "node": ">=4.4.7",
+    "npm": "^3.10.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp coverage:report",
-    "prepublish": "./node_modules/.bin/gulp rebuild"
+    "test": "ava",
+    "link": "npm link",
+    "build": "gulp",
+    "watch": "gulp watch",
+    "prepublish": "npm run build"
   },
   "dependencies": {
-    "bluebird": "^3.1.4",
-    "lodash": "^4.0.1"
+    "any-promise": "^1.3.0",
+    "bluebird": "^3.4.6",
+    "debug": "^2.2.0",
+    "lodash": "^4.15.0"
   },
   "devDependencies": {
-    "app-root-path": "^1.0.0",
-    "babel-core": "^6.4.0",
-    "babel-eslint": "^4.1.6",
-    "babel-plugin-transform-flow-strip-types": "^6.3.15",
-    "babel-preset-es2015-node4": "^2.0.2",
-    "babel-preset-stage-3": "^6.3.13",
-    "bluebird": "^3.1.5",
-    "chai": "^3.4.1",
-    "chai-as-promised": "^5.1.0",
-    "del": "^2.0.2",
-    "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^4.0.0",
-    "eslint-plugin-babel": "^3.0.0",
-    "express-mocks-http": "0.0.11",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.1",
-    "gulp-changed": "^1.3.0",
-    "gulp-codeclimate-reporter": "^1.2.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-declare": "^0.3.0",
-    "gulp-eslint": "^1.0.0",
-    "gulp-handlebars": "^4.0.0",
-    "gulp-istanbul": "^0.10.0",
-    "gulp-istanbul-enforcer": "^1.0.3",
-    "gulp-jsinspect": "^2.0.0",
-    "gulp-mocha": "^2.1.3",
+    "ava": "^0.16.0",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-preset-es2015-node4": "^2.1.0",
+    "babel-preset-stage-3": "^6.11.0",
+    "babel-register": "^6.11.6",
+    "del": "^2.2.1",
+    "eslint": "^3.1.1",
+    "eslint-config-ricepo": "^2.0.1",
+    "eslint-plugin-ava": "^3.0.0",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-lodash": "^1.10.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-changed": "^1.3.1",
+    "gulp-eslint": "^3.0.1",
     "gulp-notify": "^2.2.0",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-util": "^3.0.7",
-    "gulp-wrap": "^0.11.0",
-    "isparta": "^4.0.0",
-    "merge-stream": "^1.0.0",
-    "mocha": "^2.2.5",
-    "seneca": "^1.0.0",
-    "sinon": "^1.15.4",
-    "sinon-chai": "^2.8.0"
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-yaml": "^1.0.1",
+    "is-ci": "^1.0.9",
+    "lerna": "2.0.0-beta.28",
+    "nyc": "^8.1.0",
+    "require-yaml": "0.0.1",
+    "seneca": "^2.1.0",
+    "sinon": "^1.17.5"
   },
-  "keywords": [],
-  "babel": {
-    "auxiliaryCommentBefore": "istanbul ignore next",
-    "presets": [
-      "es2015-node4",
-      "stage-3"
+  "ava": {
+    "files": [
+      "test/**/*.spec.js"
     ],
-    "plugins": [
-      "transform-flow-strip-types"
+    "require": [
+      "babel-register",
+      "require-yaml"
+    ],
+    "babel": "inherit"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "html",
+      "lcov"
     ]
-  },
-  "flowConfig": {
-    "all": true
-  },
-  "jsInspectConfig": {
-    "threshold": 25,
-    "suppress": 0
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": "airbnb/base",
-    "parser": "babel-eslint",
-    "rules": {
-      "strict": 0,
-      "new-cap": 0,
-      "no-undef": 2,
-      "id-length": 0,
-      "func-names": 0,
-      "no-console": 1,
-      "key-spacing": 0,
-      "padded-blocks": 0,
-      "no-multi-spaces": 0,
-      "no-const-assign": 2,
-      "no-param-reassign": 0,
-      "prefer-arrow-callback": 0,
-      "space-before-function-paren": 0,
-      "comma-dangle": [
-        1,
-        "never"
-      ]
-    },
-    "ecmaFeatures": {
-      "generators": true
-    },
-    "envs": {
-      "node": true,
-      "commonjs": true,
-      "browser": false
-    }
   }
 }
