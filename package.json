@@ -1,7 +1,7 @@
 {
   "name": "seneca-as-promised",
   "description": "Promise support for Seneca.js",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "homepage": "https://github.com/jluchiji/seneca-as-promised",
   "author": {
     "name": "Denis Luchkin-Zhou",
